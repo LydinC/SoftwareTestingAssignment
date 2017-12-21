@@ -51,7 +51,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Message.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="Message.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/Message.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="175">
@@ -61,11 +61,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="AgentTests.java" pinned="false" current-in-tab="false">
+          <file leaf-file-name="AgentTests.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/test/java/AgentTests.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2941">
-                  <caret line="271" column="9" lean-forward="true" selection-start-line="270" selection-start-column="10" selection-end-line="271" selection-end-column="9" />
+                <state relative-caret-position="-3163">
+                  <caret line="11" column="25" lean-forward="true" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="method#testLoginWithNoSupervisor#0;class#AgentTests#0" expanded="false" />
@@ -692,7 +692,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2913257" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2913257" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980332" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -996,44 +996,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/AgentTests.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2941">
-          <caret line="271" column="9" lean-forward="true" selection-start-line="270" selection-start-column="10" selection-end-line="271" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#testLoginWithNoSupervisor#0;class#AgentTests#0" expanded="false" />
-            <element signature="e#912#919#0" expanded="true" />
-            <element signature="method#testLoginWithSupervisor#0;class#AgentTests#0" expanded="false" />
-            <element signature="e#1587#1594#0" expanded="true" />
-            <element signature="method#testLoginWithUnregisteredLoginKey#0;class#AgentTests#0" expanded="false" />
-            <element signature="e#2517#2524#0" expanded="true" />
-            <element signature="e#3283#3290#0" expanded="true" />
-            <element signature="method#testExceededMessageCountWhenSendingMessage#0;class#AgentTests#0" expanded="false" />
-            <element signature="method#testValidSendingMessage#0;class#AgentTests#0" expanded="false" />
-            <element signature="method#testInvalidSendingMessage#0;class#AgentTests#0" expanded="false" />
-            <element signature="method#testForceLogoutWhileSendingMessage#0;class#AgentTests#0" expanded="false" />
-            <element signature="e#5862#5869#0" expanded="true" />
-            <element signature="e#6462#6469#0" expanded="true" />
-            <element signature="method#testValidReadNextMessage#0;class#AgentTests#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Agent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="137" column="18" lean-forward="false" selection-start-line="137" selection-start-column="18" selection-end-line="137" selection-end-column="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#login#0;class#Agent#0" expanded="false" />
-            <element signature="method#sendMessage#0;class#Agent#0" expanded="false" />
-            <element signature="method#getSupervisor#0;class#Agent#0" expanded="false" />
-            <element signature="method#readNextMessage#0;class#Agent#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Mailbox.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="561">
@@ -1073,11 +1035,49 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Agent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="356">
+          <caret line="137" column="18" lean-forward="false" selection-start-line="137" selection-start-column="18" selection-end-line="137" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#login#0;class#Agent#0" expanded="false" />
+            <element signature="method#sendMessage#0;class#Agent#0" expanded="false" />
+            <element signature="method#getSupervisor#0;class#Agent#0" expanded="false" />
+            <element signature="method#readNextMessage#0;class#Agent#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Message.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="175">
           <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/AgentTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3163">
+          <caret line="11" column="25" lean-forward="true" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#testLoginWithNoSupervisor#0;class#AgentTests#0" expanded="false" />
+            <element signature="e#912#919#0" expanded="true" />
+            <element signature="method#testLoginWithSupervisor#0;class#AgentTests#0" expanded="false" />
+            <element signature="e#1587#1594#0" expanded="true" />
+            <element signature="method#testLoginWithUnregisteredLoginKey#0;class#AgentTests#0" expanded="false" />
+            <element signature="e#2517#2524#0" expanded="true" />
+            <element signature="e#3283#3290#0" expanded="true" />
+            <element signature="method#testExceededMessageCountWhenSendingMessage#0;class#AgentTests#0" expanded="false" />
+            <element signature="method#testValidSendingMessage#0;class#AgentTests#0" expanded="false" />
+            <element signature="method#testInvalidSendingMessage#0;class#AgentTests#0" expanded="false" />
+            <element signature="method#testForceLogoutWhileSendingMessage#0;class#AgentTests#0" expanded="false" />
+            <element signature="e#5862#5869#0" expanded="true" />
+            <element signature="e#6462#6469#0" expanded="true" />
+            <element signature="method#testValidReadNextMessage#0;class#AgentTests#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
