@@ -10,13 +10,12 @@ public class MessagingSystem {
     HashMap<String, String> agentSessionKeys = new HashMap<String, String>();
 
     public String login(String agentID, String loginKey){
-        //check key is less than a minute old (60 seconds by 1000ms)
-        if((agents.get(getIndexWithAgentId(agentID)).getLoginKeyAcquiredTime() + 60*1000) > System.currentTimeMillis()) {
+        //check key is less than a minute old
+        if((getAgents().get(getIndexWithAgentId(agentID)).getLoginKeyAcquiredTime() + 60*1000) > System.currentTimeMillis()) {
             //check that key and agent ID match
-            if(agentLoginKeys.get(agentID).equals(loginKey)) {
+            if(getAgentLoginKeys().get(agentID).equals(loginKey)) {
                 String sessionKey = getSessionKey();
-                //stores the agent with its key in the Hashmap of SessionKeys
-                agentSessionKeys.put(agentID, sessionKey);
+                getAgentSessionKeys().put(agentID, sessionKey);
                 return sessionKey;
             }
         }
@@ -43,32 +42,30 @@ public class MessagingSystem {
             return false;
         }
 
-        agentLoginKeys.put(agentID, loginKey);
+        getAgentLoginKeys().put(agentID, loginKey);
         return true;
     }
 
-
     public String sendMessage(String sessionKey, String sourceAgentID, String targetAgentID, String message){
-
         //checks session key, which confirms that the agent is logged in
         if(getAgentSessionKeys().get(sourceAgentID).equals(sessionKey)) {
             //check message length
             if (message.length() <= 140) {
                 //check message for blocked words
-                for (String blockedWord : this.blockedWords) {
+                for (String blockedWord : getBlockedWords()) {
                     if (message.toLowerCase().contains(blockedWord)) {
                         return ("Blocked word is in message : " + blockedWord + ". Message not sent.");
                     }
                 }
                 //store message object in mailbox of target agent
                 Message newMessage = new Message(sourceAgentID, targetAgentID, System.currentTimeMillis(), message);
-                //checking whether destination mailbox is full
-                if (agents.get(getIndexWithAgentId(targetAgentID)).getMailbox().messages.size() < 25) {
-                    agents.get(getIndexWithAgentId(targetAgentID)).getMailbox().messages.add(newMessage);
+                if (getAgents().get(getIndexWithAgentId(targetAgentID)).getMailbox().getMessages().size() < 25) {
+                    getAgents().get(getIndexWithAgentId(targetAgentID)).getMailbox().getMessages().add(newMessage);
                 } else return "Target agent has reached mailbox capacity. Message not sent.";
             } else {
                 return "Message exceeds maximum 140 characters. Message not sent.";
             }
+
         } else {
             return "Source agent session key mismatch. Source agent could be logged out. Message not sent.";
         }
@@ -77,8 +74,8 @@ public class MessagingSystem {
     }
 
     public int getIndexWithAgentId(String agentID) {
-        for(int i=0; i<agents.size(); i++) {
-            if(agents.get(i).getAgentID().equals(agentID)) {
+        for(int i=0; i<getAgents().size(); i++) {
+            if(getAgents().get(i).getAgentID().equals(agentID)) {
                 return i;
             }
         }

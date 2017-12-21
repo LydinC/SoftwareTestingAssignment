@@ -27,7 +27,6 @@ public class Agent {
                 //took longer than 1 minute to login
                 if(sessionKey == null) {
                     System.out.println("Login key expired.");
-                    //reset the keys
                     loginKey = "";
                     sessionKey = "";
                     return false;
@@ -95,8 +94,6 @@ public class Agent {
         return nextMessage.getSourceAgentID() + ": " + nextMessage.getMessageContent();
     }
 
-
-
     public boolean logoutRequired() {
         //check if the agent should be logged out
         if((loginTime + 10*60*1000) < System.currentTimeMillis()) {
@@ -104,6 +101,7 @@ public class Agent {
             System.out.println("10 minute session time exceeded. Logging Out.");
             loginKey = "";
             sessionKey = "";
+            mailbox.messages.clear();
             mailbox.readMessages.clear();
             messageCount = 0;
             return true;
@@ -147,3 +145,4 @@ public class Agent {
     }
 
 }
+

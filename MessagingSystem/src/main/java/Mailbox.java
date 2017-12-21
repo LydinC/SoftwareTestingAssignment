@@ -12,12 +12,12 @@ public class Mailbox {
             if((getMessages().get(0).getTimestamp() + 30*60*1000) > System.currentTimeMillis()){
                 Message message = getMessages().get(0);
                 //send message to the read messages so it is not lost upon removal
-                getReadMessages().add(message);
+                readMessages.add(message);
                 //remove the message from inbox since it has been read
-                getMessages().remove(0);
+                messages.remove(0);
                 return message;
             } else {
-                getMessages().remove(0);
+                messages.remove(0);
                 //read next non expired message
                 return consumeNextMessage();
             }
@@ -29,13 +29,11 @@ public class Mailbox {
         return !getMessages().isEmpty();
     }
 
-
-    public ArrayList<Message> getMessages(){
+    public ArrayList<Message> getMessages() {
         return messages;
     }
-    public ArrayList<Message> getReadMessages(){
+
+    public ArrayList<Message> getReadMessages() {
         return readMessages;
     }
-
-
 }
