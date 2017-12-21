@@ -9,15 +9,15 @@ public class Mailbox {
         //check that messages are available for consumption
         if(hasMessages()){
             //check timestamp
-            if((messages.get(0).getTimestamp() + 30*60*1000) > System.currentTimeMillis()){
-                Message message = messages.get(0);
+            if((getMessages().get(0).getTimestamp() + 30*60*1000) > System.currentTimeMillis()){
+                Message message = getMessages().get(0);
                 //send message to the read messages so it is not lost upon removal
-                readMessages.add(message);
+                getReadMessages().add(message);
                 //remove the message from inbox since it has been read
-                messages.remove(0);
+                getMessages().remove(0);
                 return message;
             } else {
-                messages.remove(0);
+                getMessages().remove(0);
                 //read next non expired message
                 return consumeNextMessage();
             }
@@ -26,7 +26,15 @@ public class Mailbox {
     }
 
     public boolean hasMessages(){
-        return !messages.isEmpty();
+        return !getMessages().isEmpty();
+    }
+
+
+    public ArrayList<Message> getMessages(){
+        return messages;
+    }
+    public ArrayList<Message> getReadMessages(){
+        return readMessages;
     }
 
 

@@ -1,4 +1,3 @@
-
 public class Message {
 
     private String sourceAgentID;

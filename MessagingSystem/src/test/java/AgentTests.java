@@ -25,35 +25,8 @@ public class AgentTests {
         agent = null;
     }
 
-    @Test
-    public void testNoSupervisorAvailable() {
-        setup();
-        MessagingSystem messagingSystem = Mockito.mock(MessagingSystem.class);
-        agent.ms = messagingSystem;
-        ArrayList<Agent> agents = new ArrayList<Agent>();
-        agents.add(agent);
-        when(messagingSystem.getAgents()).thenReturn(agents);
-        assertEquals(null, agent.getSupervisor());
-        teardown();
-    }
-
-    @Test
-    public void testSupervisorAvailable() {
-        setup();
-        //set up a supervisor so that a supervisor will be available
-        Agent supervisor = Mockito.mock(SupervisorAgent.class);
-        when(supervisor.getAgentID()).thenReturn("s0");
-        MessagingSystem messagingSystem = Mockito.mock(MessagingSystem.class);
-        agent.ms = messagingSystem;
-        ArrayList<Agent> agents = new ArrayList<Agent>();
-        agents.add(agent);
-        agents.add(supervisor);
-        when(messagingSystem.getAgents()).thenReturn(agents);
-        agent.supervisorID = "s0";
-        assertEquals(supervisor, agent.getSupervisor());
-        teardown();
-    }
-
+    //Login Method//
+    //===============================================================================================//
     @Test
     public void testLoginWithNoSupervisor() {
         setup();
@@ -110,7 +83,7 @@ public class AgentTests {
     }
 
     @Test
-        public void testLoginWithExpiredLoginKey() {
+    public void testLoginWithExpiredLoginKey() {
         setup();
         SupervisorAgent supervisor = Mockito.mock(SupervisorAgent.class);
         when(supervisor.getAgentID()).thenReturn("s0");
@@ -131,9 +104,13 @@ public class AgentTests {
         teardown();
     }
 
+    //Sending Message//
+    //===============================================================================================//
     @Test
     public void testExceededMessageCountWhenSendingMessage() {
         setup();
+        //Bypass the first if statement
+        agent.loginTime = System.currentTimeMillis();
         //set message count over the limit
         agent.messageCount = 25;
         assertEquals(false, agent.sendMessage("a0","msg"));
@@ -172,4 +149,174 @@ public class AgentTests {
         assertEquals(false, agent.sendMessage("",""));
         teardown();
     }
+
+    //Supervisor//
+    //===============================================================================================//
+
+    @Test
+    public void testNoSupervisorAvailable() {
+        setup();
+        MessagingSystem messagingSystem = Mockito.mock(MessagingSystem.class);
+        agent.ms = messagingSystem;
+        ArrayList<Agent> agents = new ArrayList<Agent>();
+        agents.add(agent);
+        when(messagingSystem.getAgents()).thenReturn(agents);
+        assertEquals(null, agent.getSupervisor());
+        teardown();
+    }
+
+    @Test
+    public void testSupervisorAvailable() {
+        setup();
+        //set up a supervisor so that a supervisor will be available
+        Agent supervisor = Mockito.mock(SupervisorAgent.class);
+        when(supervisor.getAgentID()).thenReturn("s0");
+        MessagingSystem messagingSystem = Mockito.mock(MessagingSystem.class);
+        agent.ms = messagingSystem;
+        ArrayList<Agent> agents = new ArrayList<Agent>();
+        agents.add(agent);
+        agents.add(supervisor);
+        when(messagingSystem.getAgents()).thenReturn(agents);
+        agent.supervisorID = "s0";
+        assertEquals(supervisor, agent.getSupervisor());
+        teardown();
+    }
+
+    //ReadNextMessage//
+    //===============================================================================================//
+
+    @Test
+    public void testForceLogoutWhileReadingMessage() {
+        setup();
+        //set agent login time to current time - 11 minutes
+        agent.loginTime = System.currentTimeMillis() - 11*60*1000;
+        assertEquals("Cannot read next message.", agent.readNextMessage());
+        teardown();
+    }
+
+    @Test
+    public void testNoMessageToReadFromMailbox(){
+        setup();
+        agent.loginTime = System.currentTimeMillis();
+
+        Mailbox mailbox = Mockito.mock(Mailbox.class);
+        agent.mailbox = mailbox;
+
+        when(mailbox.consumeNextMessage()).thenReturn(null);
+        assertEquals("No messages available.", agent.readNextMessage());
+        teardown();
+    }
+
+    @Test
+    public void testValidReadNextMessage(){
+        setup();
+        agent.loginTime = System.currentTimeMillis();
+
+        Mailbox mailbox = Mockito.mock(Mailbox.class);
+        agent.mailbox = mailbox;
+
+        Message message1 = Mockito.mock(Message.class);
+
+        when(message1.getMessageContent()).thenReturn("hello123");
+        when(message1.getSourceAgentID()).thenReturn("a0");
+        when(message1.getTargetAgentID()).thenReturn("a1");
+        when(message1.getTimestamp()).thenReturn(0L);
+
+        when(mailbox.consumeNextMessage()).thenReturn(message1);
+        assertEquals("a0: hello123", agent.readNextMessage());
+
+        teardown();
+    }
+
+    //Logout Required//
+    //===================================================================================//
+
+    @Test
+    public void testHaveToLogout(){
+        setup();
+        agent.loginTime = System.currentTimeMillis() - 11*60*1000;
+        assertEquals(true, agent.logoutRequired());
+        teardown();
+    }
+
+    @Test
+    public void testDoNotHaveToLogout(){
+        setup();
+        agent.loginTime =System.currentTimeMillis();
+        assertEquals(false, agent.logoutRequired());
+        teardown();
+    }
+
+    //Test Getters
+    //===================================================================================//
+
+
+    @Test
+    public void testGetMessageCount() {
+        setup();
+        assertEquals(0, agent.messageCount);
+        teardown();
+    }
+
+    @Test
+    public void testGetLoginKeyAcquiredTime() {
+        setup();
+        assertEquals(0, agent.getLoginKeyAcquiredTime());
+        teardown();
+    }
+
+    @Test
+    public void testGetMailbox() {
+        setup();
+        Mailbox  newMailbox = Mockito.mock(Mailbox.class);
+        agent.mailbox = newMailbox;
+        assertEquals(newMailbox, agent.getMailbox());
+        teardown();
+    }
+
+    @Test
+    public void testGetLoginTime() {
+        setup();
+        assertEquals(0, agent.getLoginTime());
+        teardown();
+    }
+
+    @Test
+    public void testGetMs() {
+        setup();
+        MessagingSystem messagingSystem = Mockito.mock(MessagingSystem.class);
+        agent.ms = messagingSystem;
+        assertEquals(messagingSystem, agent.getMs());
+        teardown();
+    }
+
+    @Test
+    public void testGetAgentID() {
+        setup();
+        assertEquals("a0", agent.getAgentID());
+        teardown();
+    }
+
+    @Test
+    public void testGetLoginKey() {
+        setup();
+        agent.loginKey = "0123456789";
+        assertEquals("0123456789", agent.getLoginKey());
+        teardown();
+    }
+    @Test
+    public void testGetSessionKey() {
+        setup();
+        assertEquals("", agent.getSessionKey());
+        teardown();
+    }
+
+    @Test
+    public void testGetSupervisorID() {
+        setup();
+        agent.supervisorID = "s0";
+        assertEquals("s0", agent.getSupervisorID());
+        teardown();
+    }
+
 }

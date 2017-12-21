@@ -10,11 +10,12 @@ public class MessagingSystem {
     HashMap<String, String> agentSessionKeys = new HashMap<String, String>();
 
     public String login(String agentID, String loginKey){
-        //check key is less than a minute old
+        //check key is less than a minute old (60 seconds by 1000ms)
         if((agents.get(getIndexWithAgentId(agentID)).getLoginKeyAcquiredTime() + 60*1000) > System.currentTimeMillis()) {
             //check that key and agent ID match
             if(agentLoginKeys.get(agentID).equals(loginKey)) {
                 String sessionKey = getSessionKey();
+                //stores the agent with its key in the Hashmap of SessionKeys
                 agentSessionKeys.put(agentID, sessionKey);
                 return sessionKey;
             }
@@ -46,7 +47,9 @@ public class MessagingSystem {
         return true;
     }
 
+
     public String sendMessage(String sessionKey, String sourceAgentID, String targetAgentID, String message){
+
         //checks session key, which confirms that the agent is logged in
         if(getAgentSessionKeys().get(sourceAgentID).equals(sessionKey)) {
             //check message length
@@ -59,13 +62,13 @@ public class MessagingSystem {
                 }
                 //store message object in mailbox of target agent
                 Message newMessage = new Message(sourceAgentID, targetAgentID, System.currentTimeMillis(), message);
+                //checking whether destination mailbox is full
                 if (agents.get(getIndexWithAgentId(targetAgentID)).getMailbox().messages.size() < 25) {
                     agents.get(getIndexWithAgentId(targetAgentID)).getMailbox().messages.add(newMessage);
                 } else return "Target agent has reached mailbox capacity. Message not sent.";
             } else {
                 return "Message exceeds maximum 140 characters. Message not sent.";
             }
-
         } else {
             return "Source agent session key mismatch. Source agent could be logged out. Message not sent.";
         }
