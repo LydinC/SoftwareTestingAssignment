@@ -2,7 +2,10 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+
+import java.util.ArrayList;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -121,6 +124,74 @@ public class MessagingSystemTests {
         assertEquals(50, messagingSystem.login("a0","0123456789").length());
     }
 
+    @Test
+    public void testSendMessageWithInvalidSessionKey() {
+        setup();
+        messagingSystem.agentSessionKeys.put("a0","0123456789");
+        assertEquals("Source agent session key mismatch. Source agent could be logged out. Message not sent.",
+                messagingSystem.sendMessage("","a0","a1","hello"));
+        teardown();
+    }
+
+    @Test
+    public void testSendMessageWithInvalidLength() {
+        setup();
+        messagingSystem.agentSessionKeys.put("a0","0123456789");
+        String message = "";
+        for(int i=0; i<142; i++) {
+            message = message + "a";
+        }
+        assertEquals("Message exceeds maximum 140 characters. Message not sent.",
+                messagingSystem.sendMessage("0123456789","a0","a1",message));
+        teardown();
+    }
+
+    @Test
+    public void testSendMessageWithBlockedWord() {
+        setup();
+        messagingSystem.blockedWords.add("recipe");
+        messagingSystem.blockedWords.add("ginger");
+        messagingSystem.blockedWords.add("nuclear");
+        messagingSystem.agentSessionKeys.put("a0","0123456789");
+        String message = "The key ingredient is GINGER!!!";
+        assertEquals("Blocked word is in message : ginger. Message not sent.",
+                messagingSystem.sendMessage("0123456789","a0","a1",message));
+        teardown();
+    }
+
+    @Test
+    public void testSendMessageToFullMailbox() {
+        setup();
+        messagingSystem.agentSessionKeys.put("a0","0123456789");
+        Agent target = Mockito.mock(Agent.class);
+        Mailbox mailbox = Mockito.mock(Mailbox.class);
+        when(target.getMailbox()).thenReturn(mailbox);
+        when(target.getAgentID()).thenReturn("a1");
+        ArrayList<Message> messages = new ArrayList<Message>();
+        messagingSystem.agents.add(target);
+        for(int i=0; i<25; i++) {
+            Message message = Mockito.mock(Message.class);
+            messages.add(message);
+        }
+        when(mailbox.getMessages()).thenReturn(messages);
+        assertEquals("Target agent has reached mailbox capacity. Message not sent.",
+                messagingSystem.sendMessage("0123456789","a0","a1",""));
+    }
+
+    @Test
+    public void testValidSendMessage() {
+        setup();
+        messagingSystem.agentSessionKeys.put("a0","0123456789");
+        Agent target = Mockito.mock(Agent.class);
+        Mailbox mailbox = Mockito.mock(Mailbox.class);
+        when(target.getMailbox()).thenReturn(mailbox);
+        when(target.getAgentID()).thenReturn("a1");
+        ArrayList<Message> messages = new ArrayList<Message>();
+        messagingSystem.agents.add(target);
+        when(mailbox.getMessages()).thenReturn(messages);
+        assertEquals("OK",
+                messagingSystem.sendMessage("0123456789","a0","a1","HELLO"));
+    }
 
     @Test
     public void testGetAgents(){
@@ -139,6 +210,20 @@ public class MessagingSystemTests {
         assertEquals("recipe",messagingSystem.getBlockedWords().get(0));
         assertEquals("ginger",messagingSystem.getBlockedWords().get(1));
         assertEquals("nuclear",messagingSystem.getBlockedWords().get(2));
+        teardown();
+    }
+
+    @Test
+    public void testGetAgentLoginKeys(){
+        setup();
+        assertEquals(0, messagingSystem.getAgentSessionKeys().size());
+        teardown();
+    }
+
+    @Test
+    public void testGetAgentSessionKeys(){
+        setup();
+        assertEquals(0, messagingSystem.getAgentLoginKeys().size());
         teardown();
     }
 }
