@@ -66,7 +66,7 @@ public class Agent {
             System.out.println("Cannot send more that 25 messages. Logging Out.");
             loginKey = "";
             sessionKey = "";
-            mailbox.messages.clear();
+            //mailbox.messages.clear();
             mailbox.readMessages.clear();
             messageCount = 0;
         }
@@ -101,12 +101,22 @@ public class Agent {
             System.out.println("10 minute session time exceeded. Logging Out.");
             loginKey = "";
             sessionKey = "";
-            mailbox.messages.clear();
+            //mailbox.messages.clear();
             mailbox.readMessages.clear();
             messageCount = 0;
+
             return true;
         }
         return false;
+    }
+
+    public void logout() {
+        System.out.println("10 minute session time exceeded. Logging Out.");
+        loginKey = "";
+        sessionKey = "";
+        //mailbox.messages.clear();
+        mailbox.readMessages.clear();
+        messageCount = 0;
     }
 
     public int getMessageCount() {
