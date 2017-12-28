@@ -247,6 +247,19 @@ public class AgentTests {
         teardown();
     }
 
+    //Test Logout
+    //===================================================================================//
+    @Test
+    public void testLogout(){
+        setup();
+        agent.loginKey = "0123456789";
+        agent.logout();
+        assertEquals("", agent.loginKey);
+        assertEquals("", agent.sessionKey);
+        assertEquals(0, agent.messageCount);
+        teardown();
+    }
+
     //Test Getters
     //===================================================================================//
 
